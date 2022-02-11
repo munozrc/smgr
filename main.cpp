@@ -23,6 +23,11 @@ int main(int argc, char *argv[])
   {
     for (int i = 0; i < sizeServices; i++)
     {
+      if (content != "all" && content != services[i])
+      {
+        continue;
+      }
+
       string command = "net start " + services[i];
       int status = system(command.c_str());
 
@@ -38,7 +43,10 @@ int main(int argc, char *argv[])
 
     // Show status action
     for (int i = 0; i < sizeServices; i++)
-      cout << statusCodes[i] << endl;
+    {
+      if (statusCodes[i] != "")
+        cout << statusCodes[i] << endl;
+    }
   }
   else if (action == "stop")
   {
