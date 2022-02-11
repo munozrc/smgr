@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -16,13 +17,28 @@ int main(int argc, char *argv[])
   string services[3] = {"OracleServiceXE", "OracleXETNSListener", "TeamViewer"};
   int sizeServices = sizeof(services) / sizeof(services[0]);
 
+  string statusCodes[sizeServices];
+
   if (action == "start")
   {
     for (int i = 0; i < sizeServices; i++)
     {
       string command = "net start " + services[i];
-      system(command.c_str());
+      int status = system(command.c_str());
+
+      // Check status exit for each commnad
+      if (status == 0)
+        statusCodes[i] = services[i] + ": iniciado";
+      else
+        statusCodes[i] = services[i] + ": error al iniciar";
     }
+
+    // Clear all screen
+    cout << "\x1B[2J\x1B[H";
+
+    // Show status action
+    for (int i = 0; i < sizeServices; i++)
+      cout << statusCodes[i] << endl;
   }
   else if (action == "stop")
   {
